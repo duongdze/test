@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: Xu hướng Phát triển Kinh tế - Xã hội Việt Nam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F5; /* Neutral Background */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width, can be overridden by Tailwind */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 450px; /* Max height */
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .chart-container {
+                height: 350px;
+            }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .section-title {
+            color: #00695C; /* primaryDark */
+        }
+        .stat-number {
+            color: #EF6C00; /* accentDark */
+            font-weight: 700;
+        }
+        .card {
+            background-color: #FFFFFF; /* cardBackground */
+            border: 1px solid #E0E0E0; /* borderColor */
+        }
+        .flowchart-step {
+            border: 2px solid #4DB6AC; /* primaryLight */
+            background-color: #FFFFFF;
+            color: #212121;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .flowchart-arrow {
+            color: #00897B; /* primaryMedium */
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .swot-category {
+            background-color: #4DB6AC; /* primaryLight */
+            color: white;
+        }
+        .swot-item {
+            background-color: #FFFFFF;
+            border-left: 4px solid #00897B; /* primaryMedium */
+        }
+        /* Chosen Color Palette: "Xanh Năng Động và Cam Sáng Tạo" (Dynamic Teal and Creative Orange)
+           Teal Family: primaryDark: #00695C, primaryMedium: #00897B, primaryLight: #4DB6AC
+           Orange Family: accentDark: #EF6C00, accentMedium: #FFA726, accentLight: #FFCC80
+           Neutrals: background: #F5F5F5, textDark: #212121, textLight: #757575, cardBackground: #FFFFFF, borderColor: #E0E0E0
+           Chart Colors: ['#00897B', '#FFA726', '#4DB6AC', '#FFCC80', '#00695C', '#EF6C00']
+        */
+
+        /*
+            Narrative Plan:
+            1.  Giới thiệu chung: Tầm nhìn phát triển của Việt Nam.
+            2.  Tổng quan Kinh tế: Mục tiêu tăng trưởng, cơ cấu ngành.
+            3.  Các Thành phần Kinh tế: Vai trò và định hướng.
+            4.  Phát triển Con người & Xã hội: Mục tiêu an sinh, giáo dục, y tế.
+            5.  Định hướng Khoa học & Công nghệ: Vai trò trong phát triển.
+            6.  Phân tích SWOT: Đánh giá tổng quan.
+            7.  Lộ trình Phát triển: Các bước chiến lược.
+            8.  Triển vọng Tương lai: Hướng tới mục tiêu.
+            Confirmation: NEITHER Mermaid JS NOR SVG were used. All charts are Chart.js (Canvas) or Plotly.js (Canvas/WebGL if applicable). Diagrams are HTML/CSS.
+        */
+
+        /*
+            Visualization Choices:
+            -   Mục tiêu Tăng trưởng GDP: Bar Chart (Chart.js) - Goal: Compare (mục tiêu qua các năm/giai đoạn)
+            -   Cơ cấu Kinh tế (Nông-Công nghiệp-Dịch vụ): Donut Chart (Chart.js) - Goal: Compare (tỷ trọng)
+            -   Vai trò các Thành phần Kinh tế: Stacked Bar Chart (Chart.js) - Goal: Compare (đóng góp/định hướng)
+            -   Chỉ số Phát triển Con người (HDI - nếu có số liệu, hoặc các mục tiêu liên quan): Radar Chart (Chart.js) - Goal: Compare (đa chiều)
+            -   Đầu tư cho KH&CN: Line Chart (Chart.js) - Goal: Change (xu hướng đầu tư/mục tiêu)
+            -   SWOT: HTML/CSS Table/Grid - Goal: Organize
+            -   Lộ trình Phát triển: HTML/CSS Flowchart-like structure - Goal: Organize
+            -   Dự báo Dân số/Lao động: Area Chart (Chart.js) - Goal: Change (xu hướng)
+            All visualizations use Canvas (Chart.js) or HTML/CSS. NO SVG.
+        */
+    </style>
+</head>
+<body class="text-gray-800">
+    <header class="bg-[#00695C] text-white p-6 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto">
+            <h1 class="text-3xl font-bold text-center">Xu hướng Phát triển Kinh tế - Xã hội Việt Nam</h1>
+            <p class="text-center text-lg mt-1 text-[#FFCC80]">Dựa trên định hướng chiến lược quốc gia</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="gioi-thieu" class="mb-12">
+            <div class="card rounded-lg shadow-xl p-6">
+                <h2 class="text-2xl font-semibold section-title mb-4 text-center">Tầm Nhìn Phát Triển Quốc Gia</h2>
+                <p class="text-lg text-[#333333] leading-relaxed">
+                    Việt Nam đang trên hành trình phát triển mạnh mẽ, hướng tới mục tiêu trở thành quốc gia phát triển, thu nhập cao vào năm 2045. Chiến lược phát triển kinh tế - xã hội giai đoạn tới tập trung vào việc xây dựng một nền kinh tế độc lập, tự chủ, phát triển nhanh và bền vững, gắn kết hài hòa giữa tăng trưởng kinh tế với tiến bộ, công bằng xã hội, bảo vệ môi trường và nâng cao toàn diện đời sống nhân dân.
+                </p>
+                <p class="text-lg text-[#333333] leading-relaxed mt-2">
+                    Infographic này sẽ cung cấp một cái nhìn tổng quan về các định hướng, mục tiêu và thành tựu nổi bật, cũng như những thách thức và cơ hội trên con đường phát triển của Việt Nam, dựa trên các đường lối chiến lược đã được Đảng và Nhà nước đề ra.
+                </p>
+            </div>
+        </section>
+
+        <section id="tong-quan-kinh-te" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">I. Tổng Quan Kinh Tế Việt Nam</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-[#00897B] mb-3">Mục Tiêu Tăng Trưởng Kinh Tế</h3>
+                    <p class="text-[#666666] mb-4">Đảng và Nhà nước đặt mục tiêu tăng trưởng GDP bình quân hàng năm ở mức cao, đảm bảo sự phát triển nhanh và bền vững của nền kinh tế.</p>
+                    <div class="chart-container h-72 md:h-80">
+                        <canvas id="gdpGrowthChart"></canvas>
+                    </div>
+                    <p class="text-sm text-[#666666] mt-3 text-center">Biểu đồ thể hiện mục tiêu tăng trưởng GDP qua các giai đoạn (ví dụ).</p>
+                </div>
+                <div class="card rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-[#00897B] mb-3">Cơ Cấu Kinh Tế Theo Ngành</h3>
+                    <p class="text-[#666666] mb-4">Chuyển dịch cơ cấu kinh tế theo hướng hiện đại, tăng tỷ trọng công nghiệp và dịch vụ, giảm tỷ trọng nông nghiệp.</p>
+                    <div class="chart-container h-72 md:h-80">
+                        <canvas id="economicStructureChart"></canvas>
+                    </div>
+                    <p class="text-sm text-[#666666] mt-3 text-center">Biểu đồ thể hiện định hướng cơ cấu các ngành kinh tế.</p>
+                </div>
+            </div>
+            <div class="card rounded-lg shadow-lg p-6 mt-8">
+                <h3 class="text-xl font-semibold text-[#00897B] mb-3">Thành Tựu và Hạn Chế Nổi Bật</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-semibold text-[#00695C]">Thành tựu:</h4>
+                        <ul class="list-disc list-inside text-[#333333] space-y-1 mt-2">
+                            <li>Kinh tế tăng trưởng khá, quy mô và tiềm lực được nâng lên.</li>
+                            <li>Ổn định kinh tế vĩ mô, kiểm soát lạm phát.</li>
+                            <li>Hội nhập quốc tế sâu rộng, vị thế quốc gia cải thiện.</li>
+                            <li>Đời sống nhân dân được cải thiện rõ rệt.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold text-[#EF6C00]">Hạn chế:</h4>
+                        <ul class="list-disc list-inside text-[#333333] space-y-1 mt-2">
+                            <li>Chất lượng tăng trưởng, năng suất, hiệu quả, sức cạnh tranh còn thấp.</li>
+                            <li>Thể chế kinh tế thị trường chưa đồng bộ.</li>
+                            <li>Tham nhũng, lãng phí còn diễn biến phức tạp.</li>
+                            <li>Phát triển chưa thực sự bền vững về môi trường.</li>
+                        </ul>
+                    </div>
+                </div>
+                 <p class="text-sm text-[#666666] mt-4">Các thành tựu và hạn chế này là cơ sở để Đảng và Nhà nước tiếp tục hoàn thiện đường lối, chính sách phát triển kinh tế trong giai đoạn tới, nhằm tối đa hóa các điểm mạnh và khắc phục các điểm yếu.</p>
+            </div>
+        </section>
+
+        <section id="thanh-phan-kinh-te" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">II. Các Thành Phần Kinh Tế Chủ Chốt</h2>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-[#00897B] mb-3">Định Hướng Phát Triển Các Thành Phần Kinh Tế</h3>
+                <p class="text-[#666666] mb-4">Nhà nước chủ trương phát triển nền kinh tế nhiều thành phần, trong đó kinh tế nhà nước giữ vai trò chủ đạo, kinh tế tập thể không ngừng được củng cố, kinh tế tư nhân là một động lực quan trọng, và kinh tế có vốn đầu tư nước ngoài được khuyến khích phát triển.</p>
+                <div class="chart-container h-80 md:h-96">
+                    <canvas id="economicComponentsChart"></canvas>
+                </div>
+                <p class="text-sm text-[#666666] mt-3 text-center">Biểu đồ minh họa định hướng và vai trò của các thành phần kinh tế trong tổng thể nền kinh tế quốc dân.</p>
+            </div>
+        </section>
+
+        <section id="phat-trien-con-nguoi-xa-hoi" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">III. Phát Triển Con Người & Xã Hội</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-[#00897B] mb-3">Mục Tiêu An Sinh và Phúc Lợi Xã Hội</h3>
+                     <p class="text-[#666666] mb-2">Đảm bảo an sinh xã hội là một trong những ưu tiên hàng đầu, với mục tiêu nâng cao chất lượng cuộc sống cho mọi người dân, đặc biệt là các đối tượng yếu thế. Các chính sách tập trung vào:</p>
+                    <ul class="list-disc list-inside text-[#333333] space-y-1">
+                        <li>Giảm nghèo bền vững, thu hẹp khoảng cách giàu nghèo.</li>
+                        <li>Mở rộng độ bao phủ của bảo hiểm xã hội, bảo hiểm y tế.</li>
+                        <li>Phát triển thị trường lao động, tạo việc làm chất lượng.</li>
+                        <li>Nâng cao chất lượng dịch vụ y tế, giáo dục.</li>
+                    </ul>
+                    <div class="mt-4 text-center">
+                        <span class="stat-number text-4xl">90%+</span>
+                        <p class="text-[#666666]">Mục tiêu tỷ lệ dân số tham gia BHYT (ví dụ)</p>
+                    </div>
+                </div>
+                <div class="card rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-semibold text-[#00897B] mb-3">Định Hướng Phát Triển Con Người Toàn Diện</h3>
+                    <p class="text-[#666666] mb-4">Con người được coi là trung tâm, là chủ thể, nguồn lực chủ yếu và mục tiêu của sự phát triển. Các định hướng chính bao gồm:</p>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="humanDevelopmentRadarChart"></canvas>
+                    </div>
+                    <p class="text-sm text-[#666666] mt-3 text-center">Biểu đồ radar thể hiện các khía cạnh ưu tiên trong phát triển con người toàn diện.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="khoa-hoc-cong-nghe" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">IV. Định Hướng Khoa Học & Công Nghệ</h2>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-[#00897B] mb-3">Vai Trò Của Khoa Học Công Nghệ và Đổi Mới Sáng Tạo</h3>
+                <p class="text-[#666666] mb-4">Khoa học công nghệ (KH&CN) và đổi mới sáng tạo được xác định là đột phá chiến lược, là động lực chính của tăng trưởng kinh tế và nâng cao năng lực cạnh tranh quốc gia. Nhà nước tập trung đầu tư và tạo cơ chế thuận lợi cho phát triển KH&CN, đặc biệt trong các lĩnh vực ưu tiên như công nghệ thông tin, công nghệ sinh học, năng lượng mới, vật liệu mới.</p>
+                <div class="chart-container h-72 md:h-80">
+                    <canvas id="techInvestmentChart"></canvas>
+                </div>
+                <p class="text-sm text-[#666666] mt-3 text-center">Biểu đồ thể hiện xu hướng/mục tiêu đầu tư cho KH&CN (ví dụ).</p>
+            </div>
+        </section>
+
+        <section id="swot" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">V. Phân Tích SWOT</h2>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-[#00897B] mb-4 text-center">Đánh Giá Tổng Quan Tiềm Năng và Thách Thức Phát Triển</h3>
+                <p class="text-[#666666] mb-6 text-center">Phân tích SWOT (Điểm mạnh, Điểm yếu, Cơ hội, Thách thức) giúp nhận diện rõ hơn các yếu tố tác động đến quá trình phát triển kinh tế - xã hội của Việt Nam, từ đó có những chiến lược phù hợp.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="p-4 rounded-lg swot-category">
+                        <h4 class="text-lg font-semibold text-center mb-2">S - Điểm Mạnh (Strengths)</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Ổn định chính trị - xã hội.</li>
+                            <li>Đường lối đổi mới đúng đắn, nhất quán.</li>
+                            <li>Nguồn nhân lực trẻ, dồi dào.</li>
+                            <li>Vị trí địa lý chiến lược.</li>
+                            <li>Hội nhập quốc tế sâu rộng.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg swot-category bg-[#FFCC80] text-[#212121]">
+                        <h4 class="text-lg font-semibold text-center mb-2">W - Điểm Yếu (Weaknesses)</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Năng suất lao động, sức cạnh tranh còn thấp.</li>
+                            <li>Chất lượng nguồn nhân lực chưa cao.</li>
+                            <li>Hạ tầng cơ sở chưa đồng bộ.</li>
+                            <li>Thể chế kinh tế thị trường còn bất cập.</li>
+                            <li>Tham nhũng, lãng phí.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg swot-category">
+                        <h4 class="text-lg font-semibold text-center mb-2">O - Cơ Hội (Opportunities)</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Thành tựu của cuộc CMCN 4.0.</li>
+                            <li>Xu thế toàn cầu hóa và hội nhập.</li>
+                            <li>Thị trường trong nước tiềm năng.</li>
+                            <li>Sự quan tâm, ủng hộ của cộng đồng quốc tế.</li>
+                            <li>Cam kết cải cách mạnh mẽ.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded-lg swot-category bg-[#FFCC80] text-[#212121]">
+                        <h4 class="text-lg font-semibold text-center mb-2">T - Thách Thức (Threats)</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Cạnh tranh kinh tế quốc tế gay gắt.</li>
+                            <li>Biến đổi khí hậu, thiên tai, dịch bệnh.</li>
+                            <li>Nguy cơ tụt hậu kinh tế.</li>
+                            <li>Các vấn đề an ninh phi truyền thống.</li>
+                            <li>"Bẫy" thu nhập trung bình.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-sm text-[#666666] mt-4">Việc nhận diện rõ các yếu tố này là cơ sở quan trọng để xây dựng các chiến lược phát triển phù hợp, tận dụng cơ hội và vượt qua thách thức, hướng tới mục tiêu phát triển bền vững.</p>
+            </div>
+        </section>
+
+        <section id="lo-trinh-phat-trien" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">VI. Lộ Trình Phát Triển Chiến Lược</h2>
+            <div class="card rounded-lg shadow-lg p-6">
+                <h3 class="text-xl font-semibold text-[#00897B] mb-4 text-center">Các Giai Đoạn và Đột Phá Chiến Lược</h3>
+                <p class="text-[#666666] mb-6 text-center">Đảng Cộng sản Việt Nam đã xác định các đột phá chiến lược để thúc đẩy phát triển nhanh và bền vững, tập trung vào hoàn thiện thể chế, phát triển nguồn nhân lực và xây dựng kết cấu hạ tầng đồng bộ.</p>
+                <div class="space-y-4 md:space-y-0 md:flex md:items-center md:justify-around">
+                    <div class="flowchart-step md:w-1/4">
+                        <h4 class="font-semibold text-lg">1. Hoàn thiện thể chế</h4>
+                        <p class="text-sm">Tập trung xây dựng thể chế kinh tế thị trường định hướng XHCN đầy đủ, đồng bộ, hiện đại, hội nhập.</p>
+                    </div>
+                    <div class="flowchart-arrow hidden md:block mx-4">&rarr;</div>
+                    <div class="text-center md:hidden my-2 flowchart-arrow">&darr;</div>
+                    <div class="flowchart-step md:w-1/4">
+                        <h4 class="font-semibold text-lg">2. Phát triển nguồn nhân lực</h4>
+                        <p class="text-sm">Ưu tiên phát triển nguồn nhân lực chất lượng cao, nhất là cho các ngành, lĩnh vực then chốt.</p>
+                    </div>
+                    <div class="flowchart-arrow hidden md:block mx-4">&rarr;</div>
+                    <div class="text-center md:hidden my-2 flowchart-arrow">&darr;</div>
+                    <div class="flowchart-step md:w-1/4">
+                        <h4 class="font-semibold text-lg">3. Xây dựng hạ tầng</h4>
+                        <p class="text-sm">Xây dựng hệ thống kết cấu hạ tầng đồng bộ, hiện đại cả về kinh tế và xã hội.</p>
+                    </div>
+                </div>
+                <p class="text-sm text-[#666666] mt-6">Ba đột phá chiến lược này được triển khai đồng bộ và có sự gắn kết chặt chẽ, tạo nền tảng vững chắc cho sự phát triển toàn diện của đất nước trong các giai đoạn tiếp theo.</p>
+            </div>
+        </section>
+        
+        <section id="trien-vong" class="mb-12">
+            <div class="card rounded-lg shadow-xl p-6 bg-[#00695C] text-white">
+                <h2 class="text-2xl font-semibold mb-4 text-center text-[#FFCC80]">Triển Vọng Tương Lai</h2>
+                <p class="text-lg leading-relaxed">
+                    Với đường lối đúng đắn, sự quyết tâm của toàn Đảng, toàn dân và toàn quân, cùng với việc phát huy nội lực và tận dụng hiệu quả các cơ hội từ hội nhập quốc tế, Việt Nam có đầy đủ cơ sở để tin tưởng vào một tương lai phát triển thịnh vượng. Mục tiêu xây dựng một nước Việt Nam hùng cường, dân giàu, nước mạnh, dân chủ, công bằng, văn minh sẽ sớm trở thành hiện thực.
+                </p>
+                <p class="text-lg leading-relaxed mt-2">
+                    Sự đồng lòng, đổi mới sáng tạo và khát vọng vươn lên của mỗi người dân Việt Nam chính là động lực to lớn nhất để đất nước vượt qua mọi khó khăn, thách thức, đạt được những thành tựu to lớn hơn nữa trên con đường phát triển.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#212121] text-gray-300 p-6 text-center">
+        <p>&copy; <span id="currentYear"></span> Infographic Phân tích Xu hướng Phát triển Việt Nam. </p>
+        <p class="text-sm">Thông tin dựa trên các tài liệu chiến lược quốc gia.</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        function processLabels(labels) {
+            return labels.map(label => {
+                if (typeof label === 'string' && label.length > 16) {
+                    const words = label.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                        if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                            lines.push(currentLine.trim());
+                            currentLine = word + ' ';
+                        } else {
+                            currentLine += word + ' ';
+                        }
+                    });
+                    lines.push(currentLine.trim());
+                    return lines;
+                }
+                return label;
+            });
+        }
+        
+        const chartColors = ['#00897B', '#FFA726', '#4DB6AC', '#FFCC80', '#00695C', '#EF6C00'];
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
+                        color: '#212121' 
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: '#212121' },
+                    grid: { color: '#E0E0E0' }
+                },
+                x: {
+                    ticks: { color: '#212121' },
+                    grid: { color: '#E0E0E0' }
+                }
+            }
+        };
+
+        // Chart 1: GDP Growth
+        const gdpLabels = processLabels(['Giai đoạn 2021-2025', 'Mục tiêu 2026-2030', 'Tầm nhìn đến 2045']);
+        new Chart(document.getElementById('gdpGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: gdpLabels,
+                datasets: [{
+                    label: 'Mục tiêu Tăng trưởng GDP (%)',
+                    data: [6.5, 7.0, 7.5], // Example data
+                    backgroundColor: chartColors[0],
+                    borderColor: chartColors[4],
+                    borderWidth: 1
+                }]
+            },
+            options: commonChartOptions
+        });
+
+        // Chart 2: Economic Structure
+        const structureLabels = processLabels(['Nông, Lâm, Thủy sản', 'Công nghiệp & Xây dựng', 'Dịch vụ']);
+        new Chart(document.getElementById('economicStructureChart'), {
+            type: 'doughnut',
+            data: {
+                labels: structureLabels,
+                datasets: [{
+                    label: 'Cơ Cấu Kinh Tế (%)',
+                    data: [15, 40, 45], // Example data
+                    backgroundColor: [chartColors[0], chartColors[1], chartColors[2]],
+                    hoverOffset: 4
+                }]
+            },
+            options: { ...commonChartOptions, scales: {} } // Doughnut doesn't need scales typically
+        });
+
+        // Chart 3: Economic Components
+        const componentLabels = processLabels(['Kinh tế Nhà nước', 'Kinh tế Tập thể', 'Kinh tế Tư nhân', 'Kinh tế có vốn FDI']);
+        new Chart(document.getElementById('economicComponentsChart'), {
+            type: 'bar', // Could be stacked bar if showing contribution over time or sub-sectors
+            data: {
+                labels: componentLabels,
+                datasets: [{
+                    label: 'Vai trò định hướng (%)', // Simplified representation
+                    data: [30, 10, 45, 15], // Example data representing relative importance/focus
+                    backgroundColor: [chartColors[0], chartColors[1], chartColors[2], chartColors[3]],
+                }]
+            },
+            options: commonChartOptions
+        });
+
+        // Chart 4: Human Development Radar Chart
+        const radarLabels = processLabels(['Giáo dục & Đào tạo', 'Y tế & Sức khỏe', 'An sinh Xã hội', 'Văn hóa & Tinh thần', 'Chất lượng Nhân lực']);
+        new Chart(document.getElementById('humanDevelopmentRadarChart'), {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: [{
+                    label: 'Mức độ Ưu tiên Phát triển',
+                    data: [9, 8, 8.5, 7.5, 9], // Example data (scale 1-10)
+                    fill: true,
+                    backgroundColor: 'rgba(255, 167, 38, 0.2)', // accentMedium with alpha
+                    borderColor: chartColors[1], // accentMedium
+                    pointBackgroundColor: chartColors[1],
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: chartColors[1]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) { // Radar chart labels are directly from data.labels
+                                return tooltipItems[0].label;
+                            }
+                        }
+                    },
+                    legend: { labels: { color: '#212121' } }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#E0E0E0' },
+                        grid: { color: '#E0E0E0' },
+                        pointLabels: { font: { size: 10 }, color: '#212121' },
+                        ticks: { backdropColor: 'transparent', color: '#212121' }
+                    }
+                }
+            }
+        });
+        
+        // Chart 5: Tech Investment
+        const techLabels = processLabels(['2020 (Thực tế)', 'Mục tiêu 2025', 'Mục tiêu 2030']);
+        new Chart(document.getElementById('techInvestmentChart'), {
+            type: 'line',
+            data: {
+                labels: techLabels,
+                datasets: [{
+                    label: 'Tỷ lệ Đầu tư cho KH&CN / GDP (%)',
+                    data: [1.2, 1.5, 2.0], // Example data
+                    borderColor: chartColors[3], // accentLight
+                    backgroundColor: 'rgba(0, 137, 123, 0.1)', // primaryMedium with alpha
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: commonChartOptions
+        });
+
+    </script>
+</body>
+</html>
